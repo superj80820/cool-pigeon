@@ -129,7 +129,7 @@ function playerDead() {
                 "score":score,
                 "user_id":user_id
             }),
-            comp: function(res) {  
+            complete: function(res) {  
                 liff.sendMessages([
                     {
                     type:'text',
