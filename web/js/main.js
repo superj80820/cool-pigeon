@@ -130,12 +130,7 @@ function playerDead() {
                 "user_id":user_id
             }),
             success: function(res) {  
-                liff.sendMessages([
-                    {
-                    type:'text',
-                    text:'耿耿~'
-                    }
-                ])
+                
                 }
             });
         },
@@ -143,7 +138,12 @@ function playerDead() {
           // LIFF initialization failed
         }
     );
-
+    liff.sendMessages([
+        {
+        type:'text',
+        text:'耿耿~'
+        }
+    ])
     
 }
 
