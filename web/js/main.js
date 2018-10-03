@@ -129,24 +129,24 @@ function playerDead() {
                 "score":score,
                 "user_id":user_id
             }),
-            success: function(res) {  
-                
-                }
+            success:sentToLine
             });
         },
         err => {
           // LIFF initialization failed
         }
     );
+    
+}
+
+function sentToLine(){
     liff.sendMessages([
         {
         type:'text',
         text:'耿耿~'
         }
     ])
-    
 }
-
 function showScore() {
     $("#scoreboard").css("display", "block"), setBigScore(!0), score > highscore && (highscore = score, setCookie("highscore", highscore, 999)), setSmallScore(), setHighScore();
     var e = setMedal();
