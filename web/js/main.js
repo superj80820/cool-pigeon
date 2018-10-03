@@ -130,7 +130,18 @@ function playerDead() {
                 "user_id":user_id
             }),
             success: function(res) {  
-                
+                liff.sendMessages([
+                    {
+                        type:'text',
+                        text:'Hello, World!'
+                    }
+                    ])
+                    .then(() => {
+                        console.log('message sent');
+                    })
+                    .catch((err) => {
+                        console.log('error', err);
+                    });
                 }
             
             });
