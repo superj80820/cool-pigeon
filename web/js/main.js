@@ -120,7 +120,12 @@ function playerDead() {
             // Now you can call LIFF API
             var user_id = data.context.userId;
 
-            liff.closeWindow();
+            liff.sendMessages([
+                {
+                  type:'text',
+                  text:'Hello, World!'
+                }
+              ])
 
             $.ajax({
             type: 'POST',
