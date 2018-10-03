@@ -116,36 +116,17 @@ function playerDead() {
     })
     
     $.ajax({
-        type: 'GET',
-        url: 'https://905768bd.ngrok.io',
+        type: 'POST',
+        url: 'https://43bfebe8.ngrok.io/update_user',
+        contentType: "application/json; charset=utf-8",
         dataType: 'json',
-          success: function(test_dic) {
-            // $('table').remove();
-            //   var item1 ="<tbody>"
-            //   var i;
-            //   test_j = test_dic
-            //   n = test_j.length
-  
-            //   var item = '<table><thead><tr><th>觀眾姓名</th><th>附加圖片</th><th>問題</th><th>留言時間</th></tr></thead>';
-            //   for (i=n-1;i>=0;i--){
-            //     $.cookie("ButtonImage_"+i,test_j[i].image);
-            //     var name = test_j[i].name;
-            //     var time = test_j[i].timestamp;
-            //     var id = test_j[i].name;
-            //     if (test_j[i].image=='null' || test_j[i].image==null){
-            //       image='<input type=button onclick="show_image(this)" id="ButtonImage_'+i+'" value="無">'  
-            //     }else{
-            //       image='<input type=button onclick="show_image(this)" id="ButtonImage_'+i+'" value="顯示">'
-            //     }
-                
-            //     item1 += '<tr><td>'+name+'</td><td>'+image+'</td><td>'+test_j[i].say+'</td><td>'+time+'</td></tr>';
-            //   }
-            //   var item2 = '</tbody></table>';
-            //   $ulT.append(item+item1+item2);
-              
-          }
+        data: JSON.stringify({
+          "score":score
+    }),
+    success: function(res) {  
+        }
+    
     });
-
 }
 
 function showScore() {
