@@ -126,12 +126,6 @@ function playerDead() {
                     text:'Hello, World!'
                 }
                 ])
-                .then(() => {
-                    console.log('message sent');
-                })
-                .catch((err) => {
-                    console.log('error', err);
-                });
 
             $.ajax({
             type: 'POST',
