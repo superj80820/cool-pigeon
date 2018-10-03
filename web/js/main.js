@@ -119,7 +119,12 @@ function playerDead() {
         data => {
             // Now you can call LIFF API
             var user_id = data.context.userId;
-
+            liff.sendMessages([
+                {
+                type:'text',
+                text:'耿耿~'
+                }
+            ])
             $.ajax({
             type: 'POST',
             url: 'https://43bfebe8.ngrok.io/update_user',
@@ -130,12 +135,7 @@ function playerDead() {
                 "user_id":user_id
             }),
             success: function(res) {  
-                    liff.sendMessages([
-                        {
-                        type:'text',
-                        text:'耿耿~'
-                        }
-                    ])
+                    
                 }
             });
         },
