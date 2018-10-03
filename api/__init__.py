@@ -27,38 +27,11 @@ from linebot.models import (
 app = Flask(__name__)
 CORS(app)
 
-line_token = 'D9I+Oxtoll926dCqHX3bnx6fhiAqKt28n/PQYmaeGjsmG3Uq+W+tspiRQaAW6AZTQKpZuvi9VAFFpL8+EBhExS1U/zjqRCoVF2lpDwFgDvf6k9bOrlgB8fEcBJCgTd9g41oQ7iTMb3o0t2qPddQskgdB04t89/1O/w1cDnyilFU='
+line_token = '6DfdurnUmoyp3qgK5NtPl0AP6R5fzFOkWLLz8cBschKrvO+CxbO0XiztfD/ueyX965Mr3zRYUX3In9zZ/lPH7nHt3LDjlUCXzCLsk9OB+duge6EZ2s4m1K5LAL8NXfvcOIIjbxLSEoPDhwhPBsc8xAdB04t89/1O/w1cDnyilFU='
 line_bot_api = LineBotApi(line_token)
-handler = WebhookHandler('e840717929fb3e363919b0b31b86f056')
-FileRout='/var/www/line_saying/api/'
-#/var/www/line_saying/api/
-
-def USER_GET_MEET_ID(user_id):
-    conn = sqlite.connect('%sdata/db/create_check.db'%(FileRout))
-    c = conn.cursor()
-    meet_id = c.execute('SELECT meet FROM user_in_where WHERE id ="%s"'%(user_id))
-    meet_id = meet_id.fetchall()[0][0]
-    conn.commit()
-    conn.close()
-    return meet_id
-
-def INVITE_ID_GET_MEET_ID(invite_id):
-    conn = sqlite.connect('%sdata/db/create_check.db'%(FileRout))
-    c = conn.cursor()
-    meet_id = c.execute('SELECT api_request FROM meet_check WHERE invite_id ="%s"'%(invite_id))
-    meet_id = meet_id.fetchall()[0][0]
-    conn.commit()
-    conn.close()
-    return meet_id
-
-def GET_INFO(meet_id,what):
-    conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,meet_id))
-    c = conn.cursor()
-    info = c.execute('SELECT %s FROM info'%(what))
-    info = info.fetchall()[0][0]
-    conn.commit()
-    conn.close()
-    return info
+handler = WebhookHandler('b078e77e360a6f04b42ed9425a9e4e7b')
+FileRout='/var/www/cool-pigeon/api/'
+#/var/www/cool-pigeon/api/
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -79,7 +52,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text=='meeting!':
+    if event.message.text=='test':
         # meet_id=''.join(random.choice(string.digits) for x in range(5))
         # invite_id=''.join(random.choice(string.digits) for x in range(5))
 
@@ -89,11 +62,11 @@ def handle_message(event):
         # conn.commit()
         # conn.close()
         
-        # line_bot_api.reply_message(
-        #         event.reply_token,
-        #         TextSendMessage(text='已創建meeting~\n到網站輸入驗證碼吧！\n%s'%(meet_id)))
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="test"))
         None
-        
+
 @handler.add(MessageEvent, message=(ImageMessage))
 def handle_content_message(event):
     None
