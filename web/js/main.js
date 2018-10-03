@@ -114,19 +114,33 @@ function playerDead() {
             showScore()
         })
     })
-    
-    $.ajax({
-        type: 'POST',
-        url: 'https://43bfebe8.ngrok.io/update_user',
-        contentType: "application/json; charset=utf-8",
-        dataType: 'json',
-        data: JSON.stringify({
-          "score":score
-    }),
-    success: function(res) {  
+
+    liff.init(
+        data => {
+            // Now you can call LIFF API
+            var user_id = data.context.userId;
+
+            $.ajax({
+            type: 'POST',
+            url: 'https://43bfebe8.ngrok.io/update_user',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: JSON.stringify({
+                "score":score,
+                "user_id":user_id
+            }),
+            success: function(res) {  
+                
+                }
+            
+            });
+        },
+        err => {
+          // LIFF initialization failed
         }
+    );
+
     
-    });
 }
 
 function showScore() {

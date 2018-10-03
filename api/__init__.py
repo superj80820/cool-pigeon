@@ -78,7 +78,9 @@ def handle_postback(event):
 @app.route('/update_user', methods=['POST'])
 def update_user():
     score=request.get_json()['score']
+    user_id=request.get_json()['user_id']
     print(score)
+    print(user_id)
     return "ok"
 
 if __name__ == "__main__":
