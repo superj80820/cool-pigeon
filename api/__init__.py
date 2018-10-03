@@ -63,7 +63,7 @@ def handle_message(event):
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="目前最高分!\n%s\n%s分!!"%(profile.display_name,user_score)))
+            TextSendMessage(text="目前最高分!\n%s\n%s分!!\n\n點入他挑戰!：line://app/1612063818-VeyxR31w"%(profile.display_name,user_score)))
 
 @handler.add(MessageEvent, message=(ImageMessage))
 def handle_content_message(event):

@@ -122,7 +122,7 @@ function playerDead() {
             
             $.ajax({
             type: 'POST',
-            url: 'https://43bfebe8.ngrok.io/update_user',
+            url: 'https://messfar.com/cool-pigeon_api/update_user',
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: JSON.stringify({
