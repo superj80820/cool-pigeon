@@ -21,7 +21,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, ImageMessage, VideoMessage, AudioMessage, PostbackEvent
+    CarouselTemplate, TemplateSendMessage, URITemplateAction, MessageEvent, TextMessage, TextSendMessage, ImageMessage, VideoMessage, AudioMessage, PostbackEvent, CarouselColumn, PostbackTemplateAction, MessageTemplateAction
 )
 
 app = Flask(__name__)
@@ -30,7 +30,7 @@ CORS(app)
 line_token = '6DfdurnUmoyp3qgK5NtPl0AP6R5fzFOkWLLz8cBschKrvO+CxbO0XiztfD/ueyX965Mr3zRYUX3In9zZ/lPH7nHt3LDjlUCXzCLsk9OB+duge6EZ2s4m1K5LAL8NXfvcOIIjbxLSEoPDhwhPBsc8xAdB04t89/1O/w1cDnyilFU='
 line_bot_api = LineBotApi(line_token)
 handler = WebhookHandler('b078e77e360a6f04b42ed9425a9e4e7b')
-FileRout='/var/www/cool-pigeon/api/'
+FileRout=''
 #/var/www/cool-pigeon/api/
 
 @app.route("/callback", methods=['POST'])
@@ -52,20 +52,18 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text=='test':
-        # meet_id=''.join(random.choice(string.digits) for x in range(5))
-        # invite_id=''.join(random.choice(string.digits) for x in range(5))
+    if event.message.text=='耿耿~':
+        conn = sqlite.connect('%sdata/db/data.db'%(FileRout))
+        c = conn.cursor()
+        user_id = c.execute('SELECT user_id FROM info WHERE score = (SELECT MAX(score) FROM info)')
+        user_id = user_id.fetchall()[0][0]
+        user_score = c.execute('SELECT score FROM info WHERE user_id = "%s"'%(user_id))
+        user_score = user_score.fetchall()[0][0]
+        profile = line_bot_api.get_profile(user_id)
 
-        # conn = sqlite.connect('%sdata/db/create_check.db'%(FileRout))
-        # c = conn.cursor()
-        # c.execute('INSERT INTO meet_check (api_request,user_id,invite_id) VALUES ("%s","%s","%s")'%(meet_id,event.source.user_id,invite_id))
-        # conn.commit()
-        # conn.close()
-        
         line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="test"))
-        None
+            event.reply_token,
+            TextSendMessage(text="目前最高分!\n%s\n%s分!!"%(profile.display_name,user_score)))
 
 @handler.add(MessageEvent, message=(ImageMessage))
 def handle_content_message(event):
@@ -81,6 +79,18 @@ def update_user():
     user_id=request.get_json()['user_id']
     print(score)
     print(user_id)
+
+    conn = sqlite.connect('%sdata/db/data.db'%(FileRout))
+    c = conn.cursor()
+    check_user_id = c.execute('SELECT user_id FROM info WHERE user_id ="%s"'%(user_id))
+    check_user_id = check_user_id.fetchall()
+    print(check_user_id)
+    if check_user_id == []:
+        c.execute('INSERT INTO info (user_id,score) VALUES ("%s","%s")'%(user_id,score))
+    else:
+        c.execute('UPDATE info SET score ="%s" WHERE user_id ="%s"'%(score,user_id))
+    conn.commit()
+    conn.close()
     return "ok"
 
 if __name__ == "__main__":
