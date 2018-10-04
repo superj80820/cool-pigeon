@@ -124,7 +124,7 @@ function playerDead() {
             // liff.closeWindow();
             $.ajax({
             type: 'POST',
-            url: 'https://messfar.com/cool-pigeon_api/update_user',
+            url: 'https://c6547c19.ngrok.io/update_user',
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: JSON.stringify({

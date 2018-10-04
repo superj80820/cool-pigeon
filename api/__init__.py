@@ -59,37 +59,36 @@ def handle_message(event):
         user_id = user_id.fetchall()[0][0]
         user_score = c.execute('SELECT score FROM info WHERE user_id = "%s"'%(user_id))
         user_score = user_score.fetchall()[0][0]
-        profile = line_bot_api.get_profile(user_id)
+        conn.commit()
+        conn.close()
 
+        profile = line_bot_api.get_profile(user_id)
+        
         sent_Column=CarouselColumn(
-            thumbnail_image_url="sent_logo",
-            title="set_title",
-            text="set_text",
+            thumbnail_image_url=profile.picture_url,
+            title="目前最高分 %s"%(profile.display_name),
+            text="%s分"%(user_score),
             actions=[
                 PostbackTemplateAction(
-                    label="set_label",
+                    label="幫助他",
                     text=' ',
                     data='action=buy&itemid=1'
-                ),
+                    ),
                 MessageTemplateAction(
-                    label="sent_name",
+                    label="陷害他",
                     text=' '
-                ),
+                    ),
                 URITemplateAction(
-                    label='按這搜尋去～',
-                    uri='https://www.google.com.tw/search?q='+"sent_name"
-                )
-            ]
-        )
-
-
-        #隨機選擇一位老婆
-
+                    label='我要與你挑戰!',
+                    uri='line://app/1612063818-VeyxR31w'
+                    )
+                ]
+            )
         carousel_template_message = TemplateSendMessage(
             alt_text='Carousel template',
             template=CarouselTemplate(
                 columns=[sent_Column]
-            )
+                )
         )
         line_bot_api.reply_message(event.reply_token,carousel_template_message)
 
