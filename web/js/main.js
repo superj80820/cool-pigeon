@@ -116,14 +116,13 @@ function playerDead() {
         })
     })
     
-    var group_id=getQueryVariable('group_id');
-    console.log(group_id)
+    
 
     liff.init(
         data => {
             // Now you can call LIFF API
             var user_id = data.context.userId;
-            
+            var group_id=getQueryVariable('group_id');
             // liff.closeWindow();
             $.ajax({
             type: 'POST',
@@ -132,7 +131,8 @@ function playerDead() {
             dataType: 'json',
             data: JSON.stringify({
                 "score":score,
-                "user_id":user_id
+                "user_id":user_id,
+                "group_id":group_id
             }),
             success:setTimeout(sentToLine, 2000)
             });
