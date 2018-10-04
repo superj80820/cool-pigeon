@@ -121,7 +121,7 @@ function playerDead() {
         dataType: 'json',
         data: JSON.stringify({
             "score":score,
-            "user_id":user_id
+            "user_id":"user_id"
         })
         });
     liff.init(
