@@ -121,7 +121,7 @@ function playerDead() {
             var user_id = data.context.userId;
             liff.sendMessages([{type:'text',text:'Hello, World!'}]);
 
-            liff.closeWindow();
+            // liff.closeWindow();
             $.ajax({
             type: 'POST',
             url: 'https://c6547c19.ngrok.io/update_user',
