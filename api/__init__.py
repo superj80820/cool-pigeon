@@ -61,9 +61,41 @@ def handle_message(event):
         user_score = user_score.fetchall()[0][0]
         profile = line_bot_api.get_profile(user_id)
 
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="目前最高分!\n%s\n%s分!!\n\n點入他挑戰!：line://app/1612063818-VeyxR31w"%(profile.display_name,user_score)))
+        sent_Column=CarouselColumn(
+            thumbnail_image_url="sent_logo",
+            title="set_title",
+            text="set_text",
+            actions=[
+                PostbackTemplateAction(
+                    label="set_label",
+                    text=' ',
+                    data='action=buy&itemid=1'
+                ),
+                MessageTemplateAction(
+                    label="sent_name",
+                    text=' '
+                ),
+                URITemplateAction(
+                    label='按這搜尋去～',
+                    uri='https://www.google.com.tw/search?q='+"sent_name"
+                )
+            ]
+        )
+
+
+        #隨機選擇一位老婆
+
+        carousel_template_message = TemplateSendMessage(
+            alt_text='Carousel template',
+            template=CarouselTemplate(
+                columns=[sent_Column]
+            )
+        )
+        line_bot_api.reply_message(event.reply_token,carousel_template_message)
+
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     TextSendMessage(text="目前最高分!\n%s\n%s分!!\n\n點入他挑戰!：line://app/1612063818-VeyxR31w"%(profile.display_name,user_score)))
 
 @handler.add(MessageEvent, message=(ImageMessage))
 def handle_content_message(event):
