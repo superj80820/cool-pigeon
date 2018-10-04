@@ -30,7 +30,7 @@ CORS(app)
 line_token = '6DfdurnUmoyp3qgK5NtPl0AP6R5fzFOkWLLz8cBschKrvO+CxbO0XiztfD/ueyX965Mr3zRYUX3In9zZ/lPH7nHt3LDjlUCXzCLsk9OB+duge6EZ2s4m1K5LAL8NXfvcOIIjbxLSEoPDhwhPBsc8xAdB04t89/1O/w1cDnyilFU='
 line_bot_api = LineBotApi(line_token)
 handler = WebhookHandler('b078e77e360a6f04b42ed9425a9e4e7b')
-FileRout=''
+FileRout='/var/www/cool-pigeon/api/'
 #/var/www/cool-pigeon/api/
 
 @app.route("/callback", methods=['POST'])
@@ -52,7 +52,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text=='耿耿~':
+    if event.message.text=='耿耿':
         conn = sqlite.connect('%sdata/db/data.db'%(FileRout))
         c = conn.cursor()
         user_id = c.execute('SELECT user_id FROM info WHERE score = (SELECT MAX(score) FROM info)')
@@ -86,12 +86,16 @@ def update_user():
     check_user_id = check_user_id.fetchall()
     print(check_user_id)
     if check_user_id == []:
+        print('add user')
         c.execute('INSERT INTO info (user_id,score) VALUES ("%s","%s")'%(user_id,score))
     else:
+        print('update user')
         c.execute('UPDATE info SET score ="%s" WHERE user_id ="%s"'%(score,user_id))
     conn.commit()
     conn.close()
+
+    print('done')
     return "ok"
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0",port=80)
