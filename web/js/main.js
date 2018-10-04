@@ -131,7 +131,7 @@ function playerDead() {
             liff.sendMessages([
                 {
                 type:'text',
-                text:'耿耿~'
+                text:'test'
                 }
             ]);
             $.ajax({
