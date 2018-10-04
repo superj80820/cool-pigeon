@@ -1,32 +1,3 @@
-window.onload = function (e) {
-    // init で初期化。基本情報を取得。
-    // https://developers.line.me/ja/reference/liff/#initialize-liff-app
-    liff.init(function (data) {
-        getProfile();
-        initializeApp(data);
-    });
-
-function getProfile(){
-    // https://developers.line.me/ja/reference/liff/#liffgetprofile()
-    liff.getProfile().then(function (profile) {
-        document.getElementById('useridprofilefield').textContent = profile.userId;
-        document.getElementById('displaynamefield').textContent = profile.displayName;
-
-        var profilePictureDiv = document.getElementById('profilepicturediv');
-        if (profilePictureDiv.firstElementChild) {
-            profilePictureDiv.removeChild(profilePictureDiv.firstElementChild);
-        }
-        var img = document.createElement('img');
-        img.src = profile.pictureUrl;
-        img.alt = "Profile Picture";
-        img.width = 200;
-        profilePictureDiv.appendChild(img);
-
-        document.getElementById('statusmessagefield').textContent = profile.statusMessage;
-    }).catch(function (error) {
-        window.alert("Error getting profile: " + error);
-    });
-}
 
 function getCookie(e) {
     for (var o = e + "=", t = document.cookie.split(";"), s = 0; s < t.length; s++) {
@@ -144,19 +115,32 @@ function playerDead() {
             showScore()
         })
     })
-    liff.sendMessages([{type:'text',text:'Hello, World!'}]);
-    // liff.closeWindow();
-    $.ajax({
-        type: 'POST',
-        url: 'https://c6547c19.ngrok.io/update_user',
-        contentType: "application/json; charset=utf-8",
-        dataType: 'json',
-        data: JSON.stringify({
-            "score":score,
-            "user_id":user_id
-        }),
-        success:sentToLine()
-        });
+    
+    liff.init(
+        data => {
+            // Now you can call LIFF API
+            var user_id = data.context.userId;
+            liff.sendMessages([{type:'text',text:'Hello, World!'}]);
+
+            // liff.closeWindow();
+            $.ajax({
+            type: 'POST',
+            url: 'https://c6547c19.ngrok.io/update_user',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: JSON.stringify({
+                "score":score,
+                "user_id":user_id
+            }),
+            success:sentToLine()
+            });
+        },
+        err => {
+          // LIFF initialization failed
+        }
+    );
+    
+}
 
 function sentToLine(){
     liff.sendMessages([
@@ -275,5 +259,3 @@ var isIncompatible = {
 })["catch"](function(e) {
     console.log("ServiceWorker registration failed: ", e)
 });
-
-}
