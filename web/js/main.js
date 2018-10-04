@@ -114,26 +114,12 @@ function playerDead() {
             showScore()
         })
     })
-    $.ajax({
-        type: 'POST',
-        url: 'https://c6547c19.ngrok.io/update_user',
-        contentType: "application/json; charset=utf-8",
-        dataType: 'json',
-        data: JSON.stringify({
-            "score":score,
-            "user_id":"user_id"
-        })
-        });
+    
     liff.init(
         data => {
             // Now you can call LIFF API
             var user_id = data.context.userId;
-            liff.sendMessages([
-                {
-                type:'text',
-                text:'test'
-                }
-            ]);
+            liff.closeWindow();
             $.ajax({
             type: 'POST',
             url: 'https://c6547c19.ngrok.io/update_user',
