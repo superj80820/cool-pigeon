@@ -21,7 +21,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    CarouselTemplate, TemplateSendMessage, URITemplateAction, MessageEvent, TextMessage, TextSendMessage, ImageMessage, VideoMessage, AudioMessage, PostbackEvent, CarouselColumn, PostbackTemplateAction, MessageTemplateAction
+    JoinEvent, FollowEvent, CarouselTemplate, TemplateSendMessage, URITemplateAction, MessageEvent, TextMessage, TextSendMessage, ImageMessage, VideoMessage, AudioMessage, PostbackEvent, CarouselColumn, PostbackTemplateAction, MessageTemplateAction
 )
 
 app = Flask(__name__)
@@ -53,19 +53,19 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if event.message.text=='耿耿~':
+        sent_Column_list = []
         conn = sqlite.connect('%sdata/db/data.db'%(FileRout))
         c = conn.cursor()
-        user_id = c.execute('SELECT user_id FROM info WHERE score = (SELECT MAX(score) FROM info)')
-        user_id = user_id.fetchall()[0][0]
-        user_score = c.execute('SELECT score FROM info WHERE user_id = "%s"'%(user_id))
-        user_score = user_score.fetchall()[0][0]
-        print("in%s"%user_score)
-        conn.commit()
-        conn.close()
+        user_id_list = c.execute('SELECT user_id FROM info WHERE score = (SELECT MAX(score) FROM info)')
+        user_id_list = user_id_list.fetchall()
+        for item in user_id_list:
+            user_id = item[0]
+            user_score_list = c.execute('SELECT score FROM info WHERE user_id = "%s"'%(item[0]))
+            user_score = user_score_list.fetchall()[0][0]
 
-        profile = line_bot_api.get_profile(user_id)
-        
-        sent_Column=CarouselColumn(
+            profile = line_bot_api.get_profile(user_id)
+
+            sent_Column=CarouselColumn(
             thumbnail_image_url=profile.picture_url,
             title="目前最高分 %s"%(profile.display_name),
             text="%s分"%(user_score),
@@ -85,10 +85,17 @@ def handle_message(event):
                     )
                 ]
             )
+            sent_Column_list += [sent_Column]
+        print("in%s"%user_score)
+        conn.commit()
+        conn.close()
+        print(user_id_list)
+        print(user_score_list)
+
         carousel_template_message = TemplateSendMessage(
-            alt_text='Carousel template',
+            alt_text='有人在飛~',
             template=CarouselTemplate(
-                columns=[sent_Column]
+                columns=sent_Column_list
                 )
         )
         line_bot_api.reply_message(event.reply_token,carousel_template_message)
@@ -105,14 +112,30 @@ def handle_content_message(event):
 def handle_postback(event):
     None
 
+@handler.add(FollowEvent)
+def handle_follow(event):
+    line_bot_api.reply_message(
+        event.reply_token, TextSendMessage(text='Got follow event'))
+
+@handler.add(JoinEvent)
+def handle_join(event):
+    print(event.source.group_id)
+    conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,event.source.group_id))
+    c = conn.cursor()
+    c.execute('CREATE TABLE info(user_id TEXT UNIQUE,score TEXT)')
+    conn.commit()
+    conn.close()
+
 @app.route('/update_user', methods=['POST'])
 def update_user():
     score=request.get_json()['score']
     user_id=request.get_json()['user_id']
+    group_id=request.get_json()['group_id']
     print("sent%s"%score)
     print(user_id)
+    print(group_id)
 
-    conn = sqlite.connect('%sdata/db/data.db'%(FileRout))
+    conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,group_id))
     c = conn.cursor()
     check_user_id = c.execute('SELECT user_id FROM info WHERE user_id ="%s"'%(user_id))
     check_user_id = check_user_id.fetchall()
@@ -121,8 +144,10 @@ def update_user():
         print('add user')
         c.execute('INSERT INTO info (user_id,score) VALUES ("%s","%s")'%(user_id,score))
     else:
-        print('update user')
-        c.execute('UPDATE info SET score ="%s" WHERE user_id ="%s"'%(score,user_id))
+        old_score = c.execute('SELECT score FROM info WHERE user_id ="%s"'%(user_id)).fetchall()[0][0]
+        if int(score) > int(old_score):
+            print('update user')
+            c.execute('UPDATE info SET score ="%s" WHERE user_id ="%s"'%(score,user_id))
     conn.commit()
     conn.close()
 

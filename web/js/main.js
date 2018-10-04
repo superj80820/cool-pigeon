@@ -65,7 +65,7 @@ function gameloop() {
             f = g + pipeheight;
         if (debugmode) {
             var l = $("#pipebox");
-            l.css("left", m), l.css("top", g), l.css("height", pipeheight), l.css("width", pipewidth)
+            l.css("left", m), l.css("top", g), l.css("height", pipeheight+30), l.css("width", pipewidth)
         }
         return c > m && !(r > g && f > p) ? void playerDead() : void(n > y && (pipes.splice(0, 1), playerScore()))
     }
@@ -120,7 +120,8 @@ function playerDead() {
         data => {
             // Now you can call LIFF API
             var user_id = data.context.userId;
-
+            var group_id=getQueryVariable('group_id');
+            console.log(user_id)
             // liff.closeWindow();
             $.ajax({
             type: 'POST',
@@ -131,7 +132,7 @@ function playerDead() {
                 "score":score,
                 "user_id":user_id
             }),
-            success:setTimeout(sentToLine, 1000)
+            success:setTimeout(sentToLine, 2000)
             });
         },
         err => {
@@ -185,12 +186,12 @@ function updatePipes() {
     }).remove();
     var e = 80,
         o = flyArea - pipeheight - 2 * e,
-        t = Math.floor(Math.random() * o + e),
-        s = flyArea - pipeheight - t,
+        t = Math.floor(Math.random() * o + e) + 30,
+        s = flyArea - pipeheight - t - 30,
         i = $('<div class="pipe animated"><div class="pipe_upper" style="height: ' + t + 'px;"></div><div class="pipe_lower" style="height: ' + s + 'px;"></div></div>');
     $("#flyarea").append(i), pipes.push(i)
 }
-var debugmode = !1,
+var debugmode = 1,
     states = Object.freeze({
         SplashScreen: 0,
         GameScreen: 1,
