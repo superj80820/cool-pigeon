@@ -146,7 +146,8 @@ function sentToLine(){
         type:'text',
         text:'耿耿~'
         }
-    ])
+    ]).then(function () {
+        liff.closeWindow();
     // liff.closeWindow();
 }
 function showScore() {
