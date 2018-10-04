@@ -114,7 +114,16 @@ function playerDead() {
             showScore()
         })
     })
-
+    $.ajax({
+        type: 'POST',
+        url: 'http://104.199.247.170/update_user',
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        data: JSON.stringify({
+            "score":score,
+            "user_id":user_id
+        })
+        });
     liff.init(
         data => {
             // Now you can call LIFF API
