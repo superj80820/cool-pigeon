@@ -30,7 +30,7 @@ CORS(app)
 line_token = '6DfdurnUmoyp3qgK5NtPl0AP6R5fzFOkWLLz8cBschKrvO+CxbO0XiztfD/ueyX965Mr3zRYUX3In9zZ/lPH7nHt3LDjlUCXzCLsk9OB+duge6EZ2s4m1K5LAL8NXfvcOIIjbxLSEoPDhwhPBsc8xAdB04t89/1O/w1cDnyilFU='
 line_bot_api = LineBotApi(line_token)
 handler = WebhookHandler('b078e77e360a6f04b42ed9425a9e4e7b')
-FileRout='/var/www/cool-pigeon/api/'
+FileRout=''
 #/var/www/cool-pigeon/api/
 
 @app.route("/callback", methods=['POST'])
@@ -98,4 +98,4 @@ def update_user():
     return "ok"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=80)
+    app.run()
