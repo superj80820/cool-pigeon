@@ -52,7 +52,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text=='耿耿':
+    if event.message.text=='耿耿~':
         conn = sqlite.connect('%sdata/db/data.db'%(FileRout))
         c = conn.cursor()
         user_id = c.execute('SELECT user_id FROM info WHERE score = (SELECT MAX(score) FROM info)')
