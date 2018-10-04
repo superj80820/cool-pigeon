@@ -120,12 +120,11 @@ function playerDead() {
         data => {
             // Now you can call LIFF API
             var user_id = data.context.userId;
-            liff.sendMessages([{type:'text',text:'Hello, World!'},{type:'text',text:'Hello, World!'}]);
 
             // liff.closeWindow();
             $.ajax({
             type: 'POST',
-            url: 'https://c6547c19.ngrok.io/update_user',
+            url: 'https://messfar.com/cool-pigeon_api/update_user',
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: JSON.stringify({
@@ -141,7 +140,6 @@ function playerDead() {
     );
     
 }
-
 function sentToLine(){
     liff.sendMessages([
         {
