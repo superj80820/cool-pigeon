@@ -128,8 +128,7 @@ function playerDead() {
             data: JSON.stringify({
                 "score":score,
                 "user_id":user_id
-            }),
-            success:sentToLine()
+            })
             });
         },
         err => {
