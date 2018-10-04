@@ -193,7 +193,7 @@ function updatePipes() {
         i = $('<div class="pipe animated"><div class="pipe_upper" style="height: ' + t + 'px;"></div><div class="pipe_lower" style="height: ' + s + 'px;"></div></div>');
     $("#flyarea").append(i), pipes.push(i)
 }
-var debugmode = 1,
+var debugmode =! 1,
     states = Object.freeze({
         SplashScreen: 0,
         GameScreen: 1,
