@@ -133,7 +133,7 @@ function playerDead() {
                 type:'text',
                 text:'耿耿~'
                 }
-            ])
+            ]);
             $.ajax({
             type: 'POST',
             url: 'https://c6547c19.ngrok.io/update_user',
