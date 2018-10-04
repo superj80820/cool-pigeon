@@ -59,6 +59,7 @@ def handle_message(event):
         user_id = user_id.fetchall()[0][0]
         user_score = c.execute('SELECT score FROM info WHERE user_id = "%s"'%(user_id))
         user_score = user_score.fetchall()[0][0]
+        print("in%s"%user_score)
         conn.commit()
         conn.close()
 
@@ -108,7 +109,7 @@ def handle_postback(event):
 def update_user():
     score=request.get_json()['score']
     user_id=request.get_json()['user_id']
-    print(score)
+    print("sent%s"%score)
     print(user_id)
 
     conn = sqlite.connect('%sdata/db/data.db'%(FileRout))

@@ -131,7 +131,7 @@ function playerDead() {
                 "score":score,
                 "user_id":user_id
             }),
-            success:sentToLine()
+            success:setTimeout(sentToLine(), 3000)
             });
         },
         err => {
