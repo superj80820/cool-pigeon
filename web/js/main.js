@@ -147,7 +147,7 @@ function sentToLine(){
         text:'耿耿~'
         }
     ])
-    liff.closeWindow();
+    // liff.closeWindow();
 }
 function showScore() {
     $("#scoreboard").css("display", "block"), setBigScore(!0), score > highscore && (highscore = score, setCookie("highscore", highscore, 999)), setSmallScore(), setHighScore();
