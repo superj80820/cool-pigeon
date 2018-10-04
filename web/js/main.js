@@ -117,7 +117,7 @@ function playerDead() {
     })
     
     var group_id=getQueryVariable('group_id');
-    console.log(user_id)
+    console.log(group_id)
 
     liff.init(
         data => {
