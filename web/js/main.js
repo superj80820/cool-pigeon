@@ -201,7 +201,7 @@ var debugmode =! 1,
         GameScreen: 1,
         ScoreScreen: 2
     }),
-    pipe_item = getQueryVariable('pipe_item');
+    pipe_item = getQueryVariable('pipe_item'),
     currentstate, gravity = .25,
     velocity = 0,
     position = 180,
