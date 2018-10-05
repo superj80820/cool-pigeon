@@ -126,7 +126,7 @@ function playerDead() {
             // liff.closeWindow();
             $.ajax({
             type: 'POST',
-            url: 'https://c6547c19.ngrok.io/update_user',
+            url: 'https://fca6bf5f.ngrok.io/update_user',
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: JSON.stringify({
@@ -134,7 +134,9 @@ function playerDead() {
                 "user_id":user_id,
                 "group_id":group_id
             }),
-            success:setTimeout(sentToLine, 2000)
+            complete: function(data){
+                sentToLine();
+            }
             });
         },
         err => {

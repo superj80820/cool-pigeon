@@ -52,9 +52,9 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text=='耿耿~':
+    if event.message.text=="讓我飛":
         sent_Column_list = []
-        conn = sqlite.connect('%sdata/db/data.db'%(FileRout))
+        conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,event.source.group_id))
         c = conn.cursor()
         user_id_list = c.execute('SELECT user_id FROM info WHERE score = (SELECT MAX(score) FROM info)')
         user_id_list = user_id_list.fetchall()
@@ -81,7 +81,7 @@ def handle_message(event):
                     ),
                 URITemplateAction(
                     label='我要與你挑戰!',
-                    uri='line://app/1612063818-VeyxR31w'
+                    uri='line://app/1612063818-VeyxR31w?group_id=%s'%(event.source.user_id)
                     )
                 ]
             )
@@ -91,15 +91,18 @@ def handle_message(event):
         conn.close()
         print(user_id_list)
         print(user_score_list)
-
         carousel_template_message = TemplateSendMessage(
-            alt_text='有人在飛~',
+            alt_text='飛吧~',
             template=CarouselTemplate(
                 columns=sent_Column_list
                 )
         )
         line_bot_api.reply_message(event.reply_token,carousel_template_message)
-
+    elif event.message.text=='test':
+        print(event.source.group_id)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=event.message.text))
         # line_bot_api.reply_message(
         #     event.reply_token,
         #     TextSendMessage(text="目前最高分!\n%s\n%s分!!\n\n點入他挑戰!：line://app/1612063818-VeyxR31w"%(profile.display_name,user_score)))
