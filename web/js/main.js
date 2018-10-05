@@ -65,7 +65,7 @@ function gameloop() {
             f = g + pipeheight;
         if (debugmode) {
             var l = $("#pipebox");
-            l.css("left", m), l.css("top", g), l.css("height", pipeheight+30), l.css("width", pipewidth)
+            l.css("left", m), l.css("top", g), l.css("height", pipeheight), l.css("width", pipewidth)
         }
         return c > m && !(r > g && f > p) ? void playerDead() : void(n > y && (pipes.splice(0, 1), playerScore()))
     }
@@ -149,7 +149,7 @@ function sentToLine(){
     liff.sendMessages([
         {
         type:'text',
-        text:'讓我飛'
+        text:'欸嘿!獲得了'+score+'分'
         }
     ]).then(function () {
         liff.closeWindow();})
@@ -190,8 +190,8 @@ function updatePipes() {
     }).remove();
     var e = 80,
         o = flyArea - pipeheight - 2 * e,
-        t = Math.floor(Math.random() * o + e) + 30,
-        s = flyArea - pipeheight - t - 30,
+        t = Math.floor(Math.random() * o + e),
+        s = flyArea - pipeheight - t,
         i = $('<div class="pipe animated"><div class="pipe_upper" style="height: ' + t + 'px;"></div><div class="pipe_lower" style="height: ' + s + 'px;"></div></div>');
     $("#flyarea").append(i), pipes.push(i)
 }
@@ -201,6 +201,7 @@ var debugmode =! 1,
         GameScreen: 1,
         ScoreScreen: 2
     }),
+    pipe_item = getQueryVariable('pipe_item');
     currentstate, gravity = .25,
     velocity = 0,
     position = 180,
@@ -209,7 +210,7 @@ var debugmode =! 1,
     flyArea = $("#flyarea").height(),
     score = 0,
     highscore = 0,
-    pipeheight = 90,
+    pipeheight = 90 + parseInt(pipe_item),
     pipewidth = 52,
     pipes = new Array,
     replayclickable = !1,

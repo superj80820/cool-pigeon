@@ -52,7 +52,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text=="讓我飛":
+    if event.message.text=="讓我飛":    
         sent_Column_list = []
         print(event.source.group_id)
         conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,event.source.group_id))
@@ -68,21 +68,20 @@ def handle_message(event):
 
             sent_Column=CarouselColumn(
             thumbnail_image_url=profile.picture_url,
-            title="目前最高分 %s"%(profile.display_name),
+            title="%s要開飛了"%(profile.display_name),
             text="%s分"%(user_score),
             actions=[
                 PostbackTemplateAction(
                     label="幫助他",
-                    text=' ',
-                    data='action=buy&itemid=1'
+                    data='好道具'
                     ),
-                MessageTemplateAction(
+                PostbackTemplateAction(
                     label="陷害他",
-                    text=' '
+                    data='壞道具'
                     ),
                 URITemplateAction(
-                    label='我要與你挑戰!',
-                    uri='line://app/1612063818-VeyxR31w?group_id=%s'%(event.source.user_id)
+                    label='點我開始!!',
+                    uri='line://app/1612063818-VeyxR31w?group_id=%s'%(event.source.group_id)
                     )
                 ]
             )
@@ -99,6 +98,54 @@ def handle_message(event):
                 )
         )
         line_bot_api.reply_message(event.reply_token,carousel_template_message)
+    elif event.message.text=='欸嘿':
+        sent_Column_list = []
+        print(event.source.group_id)
+        conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,event.source.group_id))
+        c = conn.cursor()
+        user_id_list = c.execute('SELECT user_id FROM info WHERE score = (SELECT MAX(score) FROM info)')
+        user_id_list = user_id_list.fetchall()
+        for item in user_id_list:
+            user_id = item[0]
+            user_score_list = c.execute('SELECT score FROM info WHERE user_id = "%s"'%(item[0]))
+            user_score = user_score_list.fetchall()[0][0]
+
+            profile = line_bot_api.get_profile(user_id)
+
+            sent_Column=CarouselColumn(
+            thumbnail_image_url=profile.picture_url,
+            title="哪呢!%s 獲得了"%(profile.display_name),
+            text="%s分"%(user_score),
+            actions=[
+                PostbackTemplateAction(
+                    label="幫助他",
+                    data='好道具'
+                    ),
+                PostbackTemplateAction(
+                    label="陷害他",
+                    data='壞道具'
+                    ),
+                URITemplateAction(
+                    label='點我向他挑戰!!',
+                    uri='line://app/1612063818-VeyxR31w?group_id=%s&pipe_item=%s'%(event.source.group_id,'100')
+                    )
+                ]
+            )
+            sent_Column_list += [sent_Column]
+        # print("in%s"%user_score)
+        conn.commit()
+        conn.close()
+        # print(user_id_list)
+        # print(user_score_list)
+        carousel_template_message = TemplateSendMessage(
+            alt_text='飛吧~',
+            template=CarouselTemplate(
+                columns=sent_Column_list
+                )
+        )
+        line_bot_api.reply_message(event.reply_token,carousel_template_message)
+        
+
     elif event.message.text=='test':
         print(event.source.group_id)
         line_bot_api.reply_message(
@@ -114,7 +161,88 @@ def handle_content_message(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    None
+    if event.postback.data == '好道具':
+        profile = line_bot_api.get_profile(event.source.user_id)
+        user_name = profile.display_name
+        quick = {
+            "type": "text", 
+            "text": "%s 竟然在幫人!?"%(user_name),
+            "quickReply": { 
+                "items": [
+                    {
+                        "type": "action",
+                        "action": {
+                            "type":"message",
+                            "label":"公開分數",
+                            "text":"公開分數"
+                        }
+                    },
+                    {
+                        "type": "action",
+                        "action": {
+                            "type":"message",
+                            "label":"公開分數",
+                            "text":"公開分數"
+                        }
+                    },
+                    {
+                        "type": "action",
+                        "action": {
+                            "type":"message",
+                            "label":"公開分數",
+                            "text":"公開分數"
+                        }
+                    }
+                ]
+            }
+        }
+        headers = {'Content-Type':'application/json','Authorization':'Bearer %s'%(line_token)}
+        payload = {
+            'replyToken':event.reply_token,
+            'messages':[quick]
+            }
+        res=requests.post('https://api.line.me/v2/bot/message/reply',headers=headers,json=payload)
+    elif event.postback.data == '壞道具':
+        profile = line_bot_api.get_profile(event.source.user_id)
+        user_name = profile.display_name
+        quick = {
+            "type": "text", 
+            "text": "%s 開始害人了"%(user_name),
+            "quickReply": { 
+                "items": [
+                    {
+                        "type": "action",
+                        "action": {
+                            "type":"message",
+                            "label":"公開分數",
+                            "text":"公開分數"
+                        }
+                    },
+                    {
+                        "type": "action",
+                        "action": {
+                            "type":"message",
+                            "label":"公開分數",
+                            "text":"公開分數"
+                        }
+                    },
+                    {
+                        "type": "action",
+                        "action": {
+                            "type":"message",
+                            "label":"公開分數",
+                            "text":"公開分數"
+                        }
+                    }
+                ]
+            }
+        }
+        headers = {'Content-Type':'application/json','Authorization':'Bearer %s'%(line_token)}
+        payload = {
+            'replyToken':event.reply_token,
+            'messages':[quick]
+            }
+        res=requests.post('https://api.line.me/v2/bot/message/reply',headers=headers,json=payload)
 
 @handler.add(FollowEvent)
 def handle_follow(event):
