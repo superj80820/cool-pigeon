@@ -195,13 +195,13 @@ function updatePipes() {
         i = $('<div class="pipe animated"><div class="pipe_upper" style="height: ' + t + 'px;"></div><div class="pipe_lower" style="height: ' + s + 'px;"></div></div>');
     $("#flyarea").append(i), pipes.push(i)
 }
+var pipe_item = getQueryVariable('pipe_item')
 var debugmode =! 1,
     states = Object.freeze({
         SplashScreen: 0,
         GameScreen: 1,
         ScoreScreen: 2
     }),
-    pipe_item = getQueryVariable('pipe_item'),
     currentstate, gravity = .25,
     velocity = 0,
     position = 180,
