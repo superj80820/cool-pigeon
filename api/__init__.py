@@ -54,6 +54,7 @@ def callback():
 def handle_message(event):
     if event.message.text=="讓我飛":
         sent_Column_list = []
+        print(event.source.group_id)
         conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,event.source.group_id))
         c = conn.cursor()
         user_id_list = c.execute('SELECT user_id FROM info WHERE score = (SELECT MAX(score) FROM info)')
@@ -86,11 +87,11 @@ def handle_message(event):
                 ]
             )
             sent_Column_list += [sent_Column]
-        print("in%s"%user_score)
+        # print("in%s"%user_score)
         conn.commit()
         conn.close()
-        print(user_id_list)
-        print(user_score_list)
+        # print(user_id_list)
+        # print(user_score_list)
         carousel_template_message = TemplateSendMessage(
             alt_text='飛吧~',
             template=CarouselTemplate(

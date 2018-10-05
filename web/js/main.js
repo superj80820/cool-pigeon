@@ -149,7 +149,7 @@ function sentToLine(){
     liff.sendMessages([
         {
         type:'text',
-        text:'耿耿~'
+        text:'讓我飛'
         }
     ]).then(function () {
         liff.closeWindow();})
