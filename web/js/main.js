@@ -1,5 +1,5 @@
-user_id=''
 window.onload = function (e) {
+    var user_id=''
     group_id=getQueryVariable('group_id');
     liff.init(function (data) {
         user_id = data.context.userId;
@@ -17,7 +17,7 @@ window.onload = function (e) {
     alert(user_id)
     $.ajax({
         type: 'GET',
-        url: 'https://fca6bf5f.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
+        url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
         dataType: 'json',
         complete: function(data){
             pipe_item=data.pipe_item;
@@ -144,7 +144,7 @@ function playerDead() {
 
     $.ajax({
         type: 'POST',
-        url: 'https://fca6bf5f.ngrok.io/update_user',
+        url: 'https://b1ff8348.ngrok.io/update_user',
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
         data: JSON.stringify({
