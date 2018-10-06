@@ -5,20 +5,19 @@ window.onload = function (e) {
         data => {
             // Now you can call LIFF API
             user_id = data.context.userId;
+            $.ajax({
+                type: 'GET',
+                url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
+                dataType: 'json',
+                complete: function(data){
+                    pipe_item=data.pipe_item;
+                }
+                });
         },
         err => {
           // LIFF initialization failed
         }
     );
-    $.ajax({
-        type: 'GET',
-        url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
-        dataType: 'json',
-        complete: function(data){
-            pipe_item=data.pipe_item;
-        }
-        });
-        
 }
 function getCookie(e) {
     for (var o = e + "=", t = document.cookie.split(";"), s = 0; s < t.length; s++) {
