@@ -1,9 +1,8 @@
+user_id=''
 window.onload = function (e) {
     group_id=getQueryVariable('group_id');
-    user_id=''
-    user_id=liff.init(function (data) {
+    liff.init(function (data) {
         user_id = data.context.userId;
-        return user_id
     });
     // liff.init(
     //     data => {
