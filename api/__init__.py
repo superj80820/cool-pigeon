@@ -292,7 +292,9 @@ def user_info():
     group_id=request.args.get('group_id')
     print(user_id)
     print(group_id)
-    return "ok"
+    ret={}
+    ret['pipe_item']='100'
+    return jsonify(ret)
 
 if __name__ == "__main__":
     app.run()
