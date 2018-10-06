@@ -11,6 +11,7 @@ window.onload = function (e) {
                 dataType: 'json',
                 complete: function(data){
                     pipe_item=data.pipe_item;
+                    alert(pipe_item)
                 }
                 });
         },
@@ -44,7 +45,6 @@ function showSplash() {
 }
 
 function startGame() {
-    alert(pipe_item)
     currentstate = states.GameScreen, $("#splash").stop(), $("#splash").transition({
         opacity: 0
     }, 500, "ease"), setBigScore(), debugmode && $(".boundingbox").show();
