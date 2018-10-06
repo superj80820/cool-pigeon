@@ -1,20 +1,15 @@
 window.onload = function (e) {
     user_id=''
     group_id=getQueryVariable('group_id');
-    liff.init(function (data) {
-        user_id = data.context.userId;
-    });
-    // liff.init(
-    //     data => {
-    //         // Now you can call LIFF API
-            
-    //         return user_id;
-    //     },
-    //     err => {
-    //       // LIFF initialization failed
-    //     }
-    // );
-    alert(group_id)
+    liff.init(
+        data => {
+            // Now you can call LIFF API
+            user_id = data.context.userId;
+        },
+        err => {
+          // LIFF initialization failed
+        }
+    );
     $.ajax({
         type: 'GET',
         url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
@@ -50,6 +45,7 @@ function showSplash() {
 }
 
 function startGame() {
+    alert(group_id)
     currentstate = states.GameScreen, $("#splash").stop(), $("#splash").transition({
         opacity: 0
     }, 500, "ease"), setBigScore(), debugmode && $(".boundingbox").show();
