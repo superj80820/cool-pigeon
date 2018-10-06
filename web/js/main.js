@@ -5,12 +5,13 @@ window.onload = function (e) {
         data => {
             // Now you can call LIFF API
             user_id = data.context.userId;
+            alert(user_id);
         },
         err => {
           // LIFF initialization failed
         }
     );
-    alert(user_id);
+    
     $.ajax({
         type: 'GET',
         url: 'https://fca6bf5f.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
