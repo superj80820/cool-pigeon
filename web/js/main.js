@@ -14,7 +14,7 @@ window.onload = function (e) {
     //       // LIFF initialization failed
     //     }
     // );
-    alert(user_id)
+    alert(group_id)
     $.ajax({
         type: 'GET',
         url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
