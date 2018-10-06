@@ -1,5 +1,6 @@
 window.onload = function (e) {
     group_id=getQueryVariable('group_id');
+    user_id=''
     liff.init(
         data => {
             // Now you can call LIFF API
