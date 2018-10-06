@@ -81,7 +81,7 @@ def handle_message(event):
                     ),
                 URITemplateAction(
                     label='點我開始!!',
-                    uri='line://app/1612063818-VeyxR31w?group_id=%s'%(event.source.group_id)
+                    uri='line://app/1612063818-VeyxR31w?group_id=%s&pipe_item=%s'%(event.source.group_id,'100')
                     )
                 ]
             )
@@ -284,6 +284,14 @@ def update_user():
     conn.close()
 
     print('done')
+    return "ok"
+
+@app.route('/user_info', methods=['GET'])
+def user_info():
+    user_id=request.args.get('user_id')
+    group_id=request.args.get('group_id')
+    print(user_id)
+    print(group_id)
     return "ok"
 
 if __name__ == "__main__":

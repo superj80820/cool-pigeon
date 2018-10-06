@@ -1,4 +1,25 @@
-
+window.onload = function (e) {
+    liff.init(
+        data => {
+            // Now you can call LIFF API
+            user_id = data.context.userId;
+            group_id=getQueryVariable('group_id');
+        },
+        err => {
+          // LIFF initialization failed
+        }
+    );
+    // alert(pipe_item);
+    $.ajax({
+        type: 'GET',
+        url: 'https://fca6bf5f.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
+        dataType: 'json',
+        complete: function(data){
+            pipe_item=data.pipe_item;
+        }
+        });
+        
+}
 function getCookie(e) {
     for (var o = e + "=", t = document.cookie.split(";"), s = 0; s < t.length; s++) {
         var i = t[s].trim();
@@ -39,7 +60,6 @@ function updatePlayer(e) {
 }
 
 function gameloop() {
-    var pipe_item = getQueryVariable('pipe_item');
     var e = $("#player");
     velocity += gravity, position += velocity, updatePlayer(e);
     var o = document.getElementById("player").getBoundingClientRect(),
@@ -116,32 +136,21 @@ function playerDead() {
             showScore()
         })
     })
-    
-    liff.init(
-        data => {
-            // Now you can call LIFF API
-            var user_id = data.context.userId;
-            var group_id=getQueryVariable('group_id');
-            // liff.closeWindow();
-            $.ajax({
-            type: 'POST',
-            url: 'https://fca6bf5f.ngrok.io/update_user',
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            data: JSON.stringify({
-                "score":score,
-                "user_id":user_id,
-                "group_id":group_id
-            }),
-            complete: function(data){
-                sentToLine();
-            }
-            });
-        },
-        err => {
-          // LIFF initialization failed
+
+    $.ajax({
+        type: 'POST',
+        url: 'https://fca6bf5f.ngrok.io/update_user',
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        data: JSON.stringify({
+            "score":score,
+            "user_id":user_id,
+            "group_id":group_id
+        }),
+        complete: function(data){
+            sentToLine();
         }
-    );
+        });
     
 }
 function sentToLine(){
@@ -184,7 +193,6 @@ function playerScore() {
 }
 
 function updatePipes() {
-    var pipe_item = getQueryVariable('pipe_item');
     $(".pipe").filter(function() {
         return $(this).position().left <= -100
     }).remove();
