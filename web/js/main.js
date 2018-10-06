@@ -1,5 +1,5 @@
 window.onload = function (e) {
-    var user_id=''
+    user_id=''
     group_id=getQueryVariable('group_id');
     liff.init(function (data) {
         user_id = data.context.userId;
