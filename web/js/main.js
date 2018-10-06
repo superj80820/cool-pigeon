@@ -1,15 +1,15 @@
 window.onload = function (e) {
+    group_id=getQueryVariable('group_id');
     liff.init(
         data => {
             // Now you can call LIFF API
             user_id = data.context.userId;
-            group_id=getQueryVariable('group_id');
         },
         err => {
           // LIFF initialization failed
         }
     );
-    alert("group_id");
+    alert(group_id);
     $.ajax({
         type: 'GET',
         url: 'https://fca6bf5f.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
