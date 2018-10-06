@@ -9,9 +9,8 @@ window.onload = function (e) {
                 type: 'GET',
                 url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
                 dataType: 'json',
-                complete: function(data){
-                    aa=data
-                    pipe_item=aa.pipe_item;
+                success: function(data){
+                    pipe_item=data.pipe_item;
                     alert(pipe_item)
                 }
                 });
