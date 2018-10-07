@@ -44,7 +44,6 @@ function showSplash() {
 }
 
 function startGame() {
-    alert(pipe_item)
     currentstate = states.GameScreen, $("#splash").stop(), $("#splash").transition({
         opacity: 0
     }, 500, "ease"), setBigScore(), debugmode && $(".boundingbox").show();

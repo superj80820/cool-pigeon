@@ -293,7 +293,7 @@ def user_info():
     print(user_id)
     print(group_id)
     ret={}
-    ret['pipe_item']='-30'
+    ret['pipe_item']='100'
     return jsonify(ret)
 
 if __name__ == "__main__":
