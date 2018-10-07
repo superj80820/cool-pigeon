@@ -61,6 +61,7 @@ function updatePlayer(e) {
 
 function gameloop() {
     pipe_item = Math.floor(Math.random()*parseInt(pipe_item))
+    alert(pipe_item)
     var e = $("#player");
     velocity += gravity, position += velocity, updatePlayer(e);
     var o = document.getElementById("player").getBoundingClientRect(),
