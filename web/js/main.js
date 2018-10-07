@@ -11,7 +11,6 @@ window.onload = function (e) {
                 dataType: 'json',
                 success: function(data){
                     pipe_item=data.pipe_item;
-                    alert(pipe_item)
                 }
                 });
         },
@@ -59,6 +58,7 @@ function updatePlayer(e) {
 }
 
 function gameloop() {
+    alert(pipe_item)
     var e = $("#player");
     velocity += gravity, position += velocity, updatePlayer(e);
     var o = document.getElementById("player").getBoundingClientRect(),
