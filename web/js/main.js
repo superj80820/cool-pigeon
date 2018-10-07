@@ -1,24 +1,26 @@
 window.onload = function (e) {
-    user_id=''
-    group_id=getQueryVariable('group_id');
-    liff.init(
-        data => {
-            // Now you can call LIFF API
-            user_id = data.context.userId;
-            $.ajax({
-                type: 'GET',
-                url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
-                dataType: 'json',
-                success: function(data){
-                    pipe_item=parseInt(data.pipe_item);
-                    alert(pipe_item)
-                }
-                });
-        },
-        err => {
-          // LIFF initialization failed
-        }
-    );
+    // user_id=''
+    // group_id=getQueryVariable('group_id');
+    // liff.init(
+    //     data => {
+    //         // Now you can call LIFF API
+    //         user_id = data.context.userId;
+    //         $.ajax({
+    //             type: 'GET',
+    //             url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
+    //             dataType: 'json',
+    //             success: function(data){
+    //                 pipe_item=parseInt(data.pipe_item);
+    //                 alert(pipe_item)
+    //             }
+    //             });
+    //     },
+    //     err => {
+    //       // LIFF initialization failed
+    //     }
+    // );
+    pipe_item=100;
+    alert(pipe_item)
 }
 function getCookie(e) {
     for (var o = e + "=", t = document.cookie.split(";"), s = 0; s < t.length; s++) {
@@ -77,7 +79,8 @@ function gameloop() {
     if (o.bottom >= $("#land").offset().top) return void playerDead();
     var u = $("#ceiling");
     if (r <= u.offset().top + u.height() && (position = 0), null != pipes[0]) {
-        pipe_item_final=Math.floor(Math.random()*pipe_item)
+        alert(pipe_item)
+        pipe_item_final=pipe_item
         var d = pipes[0],
             h = d.children(".pipe_upper"),
             g = h.offset().top + h.height(),
