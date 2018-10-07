@@ -48,7 +48,7 @@ function startGame() {
         opacity: 0
     }, 500, "ease"), setBigScore(), debugmode && $(".boundingbox").show();
     var e = 1e3 / 60;
-    loopGameloop = setInterval(gameloop, e), loopPipeloop = setInterval(updatePipes, 1400), playerJump()
+    loopGameloop = setInterval(gameloop, e), loopPipeloop = setInterval(updatePipes, 1400), playerJump(), aa = setInterval(pipe_item, e)
 }
 
 function updatePlayer(e) {
@@ -58,9 +58,13 @@ function updatePlayer(e) {
     })
 }
 
-function gameloop() {
+function aaa(){
     pipe_item = Math.floor(Math.random()*parseInt(pipe_item))
     alert(pipe_item)
+}
+
+function gameloop() {
+    
     var e = $("#player");
     velocity += gravity, position += velocity, updatePlayer(e);
     var o = document.getElementById("player").getBoundingClientRect(),
