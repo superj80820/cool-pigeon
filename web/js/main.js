@@ -191,7 +191,7 @@ function playerScore() {
 }
 
 function updatePipes() {
-    alert(pipe_item)
+    // alert(pipe_item)
     $(".pipe").filter(function() {
         return $(this).position().left <= -100
     }).remove();
