@@ -48,7 +48,7 @@ function startGame() {
         opacity: 0
     }, 500, "ease"), setBigScore(), debugmode && $(".boundingbox").show();
     var e = 1e3 / 60;
-    loopGameloop = setInterval(gameloop, e), loopPipeloop = setInterval(updatePipes, 1400), playerJump(), aa = setInterval(pipe_item, e)
+    loopGameloop = setInterval(gameloop, e), loopPipeloop = setInterval(updatePipes, 1400), playerJump(), aa = setInterval(aaa, e)
 }
 
 function updatePlayer(e) {
