@@ -1,5 +1,6 @@
 window.onload = function (e) {
     loadOk = false;
+    alert(loadOk)
     user_id='';
     group_id=getQueryVariable('group_id');
     liff.init(
