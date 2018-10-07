@@ -233,7 +233,7 @@ var debugmode = 1,
     soundDie = new buzz.sound("assets/sounds/sfx_die.ogg"),
     soundSwoosh = new buzz.sound("assets/sounds/sfx_swooshing.ogg");
 buzz.all().setVolume(volume);
-var loopGameloop, loopPipeloop;
+var loopGameloop, loopPipeloop, aa;
 $(document).ready(function() {
     "?debug" == window.location.search && (debugmode = !0), "?easy" == window.location.search && (pipeheight = 200);
     var e = getCookie("highscore");
