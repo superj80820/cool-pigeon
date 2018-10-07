@@ -13,7 +13,6 @@ window.onload = function (e) {
                 url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'&group_id='+group_id,
                 dataType: 'json',
                 success: function(data){
-                    console.log(data)
                     pipe_item=parseInt(data[0].pipe_item);
                     jump = parseFloat(data[0].jump);
                     gravity = parseFloat(data[0].gravity);
@@ -21,6 +20,8 @@ window.onload = function (e) {
                     score_point =parseInt(data[0].score_point);
                     alert(loadOk)
                     loadOk = true;
+                },error: function(data){
+                    alert('fail')
                 }
             });
         },
