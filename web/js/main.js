@@ -96,7 +96,7 @@ function gameloop() {
 }
 
 function screenClick() {
-    aaa();
+    alert(pipe_item)
     currentstate == states.GameScreen ? playerJump() : currentstate == states.SplashScreen && startGame()
 }
 
