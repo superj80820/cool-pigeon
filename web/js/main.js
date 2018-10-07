@@ -64,7 +64,7 @@ function aaa(){
 }
 
 function gameloop() {
-    
+    alert(pipe_item)
     var e = $("#player");
     velocity += gravity, position += velocity, updatePlayer(e);
     var o = document.getElementById("player").getBoundingClientRect(),
