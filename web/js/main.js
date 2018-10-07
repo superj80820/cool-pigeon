@@ -60,6 +60,7 @@ function updatePlayer(e) {
 }
 
 function gameloop() {
+    pipe_item = Math.floor(Math.random()*parseInt(pipe_item))
     var e = $("#player");
     velocity += gravity, position += velocity, updatePlayer(e);
     var o = document.getElementById("player").getBoundingClientRect(),
@@ -83,10 +84,10 @@ function gameloop() {
             g = h.offset().top + h.height(),
             m = h.offset().left - 2,
             y = m + pipewidth,
-            f = g + pipeheight + parseInt(pipe_item);
+            f = g + pipeheight + pipe_item;
         if (debugmode) {
             var l = $("#pipebox");
-            l.css("left", m), l.css("top", g), l.css("height", pipeheight + parseInt(pipe_item)), l.css("width", pipewidth)
+            l.css("left", m), l.css("top", g), l.css("height", pipeheight + pipe_item), l.css("width", pipewidth)
         }
         return c > m && !(r > g && f > p) ? void playerDead() : void(n > y && (pipes.splice(0, 1), playerScore()))
     }
@@ -199,7 +200,7 @@ function updatePipes() {
     var e = 80,
         o = flyArea - pipeheight - 2 * e,
         t = Math.floor(Math.random() * o + e),
-        s = flyArea - pipeheight - t - parseInt(pipe_item),
+        s = flyArea - pipeheight - t - pipe_item,
         i = $('<div class="pipe animated"><div class="pipe_upper" style="height: ' + t + 'px;"></div><div class="pipe_lower" style="height: ' + s + 'px;"></div></div>');
     $("#flyarea").append(i), pipes.push(i)
 }
