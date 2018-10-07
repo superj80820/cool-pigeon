@@ -48,9 +48,7 @@ function startGame() {
         opacity: 0
     }, 500, "ease"), setBigScore(), debugmode && $(".boundingbox").show();
     var e = 1e3 / 60;
-    alert(pipe_item)
-    // loopGameloop = setInterval(gameloop, e), loopPipeloop = setInterval(updatePipes, 1400), playerJump(), aa = setInterval(aaa, e)
-}
+    // loopGameloop = setInterval(gameloop, e), loopPipeloop = setInterval(updatePipes, 1400), playerJump()
 
 function updatePlayer(e) {
     rotation = Math.min(velocity / 10 * 90, 90), $(e).css({
@@ -65,7 +63,6 @@ function aaa(){
 }
 
 function gameloop() {
-    alert(pipe_item)
     var e = $("#player");
     velocity += gravity, position += velocity, updatePlayer(e);
     var o = document.getElementById("player").getBoundingClientRect(),
@@ -99,6 +96,7 @@ function gameloop() {
 }
 
 function screenClick() {
+    aaa();
     currentstate == states.GameScreen ? playerJump() : currentstate == states.SplashScreen && startGame()
 }
 
@@ -234,7 +232,7 @@ var debugmode = 1,
     soundDie = new buzz.sound("assets/sounds/sfx_die.ogg"),
     soundSwoosh = new buzz.sound("assets/sounds/sfx_swooshing.ogg");
 buzz.all().setVolume(volume);
-var loopGameloop, loopPipeloop, aa;
+var loopGameloop, loopPipeloop;
 $(document).ready(function() {
     "?debug" == window.location.search && (debugmode = !0), "?easy" == window.location.search && (pipeheight = 200);
     var e = getCookie("highscore");
