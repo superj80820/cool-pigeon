@@ -77,7 +77,7 @@ function gameloop() {
     var u = $("#ceiling");
     if (r <= u.offset().top + u.height() && (position = 0), null != pipes[0]) {
         alert(pipe_item_final)
-        pipe_item_final=Math.floor(Math.random()*pipe_item)
+        var pipe_item_final=Math.floor(Math.random()*pipe_item)
         var d = pipes[0],
             h = d.children(".pipe_upper"),
             g = h.offset().top + h.height(),
