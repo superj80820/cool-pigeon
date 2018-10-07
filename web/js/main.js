@@ -58,7 +58,6 @@ function updatePlayer(e) {
 }
 
 function gameloop() {
-    alert(pipe_item)
     var e = $("#player");
     velocity += gravity, position += velocity, updatePlayer(e);
     var o = document.getElementById("player").getBoundingClientRect(),
@@ -192,6 +191,7 @@ function playerScore() {
 }
 
 function updatePipes() {
+    alert(pipe_item)
     $(".pipe").filter(function() {
         return $(this).position().left <= -100
     }).remove();
