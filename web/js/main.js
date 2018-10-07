@@ -10,7 +10,7 @@ window.onload = function (e) {
                 url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
                 dataType: 'json',
                 success: function(data){
-                    pipe_item=data.pipe_item;
+                    pipe_item=parseInt(data.pipe_item);
                 }
                 });
         },
