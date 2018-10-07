@@ -7,6 +7,7 @@ window.onload = function (e) {
         data => {
             // Now you can call LIFF API
             user_id = data.context.userId;
+            alert(user_id)
             $.ajax({
                 type: 'GET',
                 url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'&group_id='+group_id,
