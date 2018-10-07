@@ -1,27 +1,34 @@
 window.onload = function (e) {
-    // user_id=''
-    // group_id=getQueryVariable('group_id');
-    // liff.init(
-    //     data => {
-    //         // Now you can call LIFF API
-    //         user_id = data.context.userId;
-    //         $.ajax({
-    //             type: 'GET',
-    //             url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
-    //             dataType: 'json',
-    //             success: function(data){
-    //                 pipe_item=parseInt(data.pipe_item);
-    //                 alert(pipe_item)
-    //             }
-    //             });
-    //     },
-    //     err => {
-    //       // LIFF initialization failed
-    //     }
-    // );
-    pipe_item=100;
-    alert(pipe_item)
+    loadOk = false;
+    user_id='';
+    group_id=getQueryVariable('group_id');
+    liff.init(
+        data => {
+            // Now you can call LIFF API
+            user_id = data.context.userId;
+            $.ajax({
+                type: 'GET',
+                url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'&group_id='+group_id,
+                dataType: 'json',
+                success: function(data){
+                    console.log(data)
+                    pipe_item=parseInt(data[0].pipe_item);
+                    jump = parseFloat(data[0].jump);
+                    gravity = parseFloat(data[0].gravity);
+                    updateSpeed = parseInt(data[0].updateSpeed);
+                    score_point =parseInt(data[0].score_point);
+                    loadOk = true;
+                }
+            });
+        },
+        err => {
+          // LIFF initialization failed
+        }
+    );
+
+    
 }
+
 function getCookie(e) {
     for (var o = e + "=", t = document.cookie.split(";"), s = 0; s < t.length; s++) {
         var i = t[s].trim();
@@ -51,7 +58,7 @@ function startGame() {
         opacity: 0
     }, 500, "ease"), setBigScore(), debugmode && $(".boundingbox").show();
     var e = 1e3 / 60;
-    loopGameloop = setInterval(gameloop, e), loopPipeloop = setInterval(updatePipes, 1400), playerJump()
+    loopGameloop = setInterval(gameloop, e), loopPipeloop = setInterval(updatePipes, updateSpeed), playerJump()
 }
 function updatePlayer(e) {
     rotation = Math.min(velocity / 10 * 90, 90), $(e).css({
@@ -79,24 +86,24 @@ function gameloop() {
     if (o.bottom >= $("#land").offset().top) return void playerDead();
     var u = $("#ceiling");
     if (r <= u.offset().top + u.height() && (position = 0), null != pipes[0]) {
-        alert(pipe_item)
-        pipe_item_final=pipe_item
         var d = pipes[0],
             h = d.children(".pipe_upper"),
             g = h.offset().top + h.height(),
             m = h.offset().left - 2,
             y = m + pipewidth,
-            f = g + pipeheight + pipe_item_final;
+            f = g + pipeheight + pipe_item;
         if (debugmode) {
             var l = $("#pipebox");
-            l.css("left", m), l.css("top", g), l.css("height", pipeheight + pipe_item_final), l.css("width", pipewidth)
+            l.css("left", m), l.css("top", g), l.css("height", pipeheight + pipe_item), l.css("width", pipewidth)
         }
         return c > m && !(r > g && f > p) ? void playerDead() : void(n > y && (pipes.splice(0, 1), playerScore()))
     }
 }
 
 function screenClick() {
-    currentstate == states.GameScreen ? playerJump() : currentstate == states.SplashScreen && startGame()
+    if (loadOk){
+        currentstate == states.GameScreen ? playerJump() : currentstate == states.SplashScreen && startGame()
+    }
 }
 
 function playerJump() {
@@ -153,7 +160,7 @@ function playerDead() {
         complete: function(data){
             sentToLine();
         }
-        });
+    });
     
 }
 function sentToLine(){
@@ -192,7 +199,7 @@ function showScore() {
 }
 
 function playerScore() {
-    score += 1, soundScore.stop(), soundScore.play(), setBigScore()
+    score += score_point, soundScore.stop(), soundScore.play(), setBigScore()
 }
 
 function updatePipes() {
@@ -202,7 +209,7 @@ function updatePipes() {
     var e = 80,
         o = flyArea - pipeheight - 2 * e,
         t = Math.floor(Math.random() * o + e),
-        s = flyArea - pipeheight - t - pipe_item_final,
+        s = flyArea - pipeheight - t - pipe_item,
         i = $('<div class="pipe animated"><div class="pipe_upper" style="height: ' + t + 'px;"></div><div class="pipe_lower" style="height: ' + s + 'px;"></div></div>');
     $("#flyarea").append(i), pipes.push(i)
 }
@@ -212,11 +219,10 @@ var debugmode = 1,
         GameScreen: 1,
         ScoreScreen: 2
     }),
-    currentstate, gravity = .25,
+    currentstate,
     velocity = 0,
     position = 180,
     rotation = 0,
-    jump = -4.6,
     flyArea = $("#flyarea").height(),
     score = 0,
     highscore = 0,

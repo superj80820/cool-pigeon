@@ -254,7 +254,7 @@ def handle_join(event):
     print(event.source.group_id)
     conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,event.source.group_id))
     c = conn.cursor()
-    c.execute('CREATE TABLE info(user_id TEXT UNIQUE,score TEXT)')
+    c.execute('CREATE TABLE info(user_id TEXT UNIQUE,score TEXT,pipe_item TEXT DEFAULT 0,jump TEXT DEFAULT -4.6,gravity TEXT DEFAULT .25,updateSpeed TEXT DEFAULT 1400,score_point TEXT DEFAULT 10)')
     conn.commit()
     conn.close()
 
@@ -290,11 +290,30 @@ def update_user():
 def user_info():
     user_id=request.args.get('user_id')
     group_id=request.args.get('group_id')
-    print(user_id)
-    print(group_id)
+    print('user is %s'%(user_id))
+    print('group_id is %s'%(group_id))
     ret={}
-    ret['pipe_item']='100'
-    return jsonify(ret)
+    conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,group_id))
+    c = conn.cursor()
+    check_user_id = c.execute('SELECT user_id FROM info WHERE user_id ="%s"'%(user_id))
+    check_user_id = check_user_id.fetchall()
+    print(check_user_id)
+    if check_user_id == []:
+        ret['pipe_item']='0'
+        ret['jump']='-4.6'
+        ret['gravity']='.25'
+        ret['updateSpeed']='1400'
+        ret['score_point']='10'
+        conn.commit()  
+        conn.close()
+        return jsonify(ret)
+    else:
+        df = pandas.read_sql_query("SELECT * FROM info WHERE user_id ='%s'"%(user_id), conn)
+        ret = df.to_dict(orient='records')
+        conn.commit()  
+        conn.close()
+        return jsonify(ret)
+    return 'fail'
 
 if __name__ == "__main__":
     app.run()
