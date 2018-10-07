@@ -11,6 +11,7 @@ window.onload = function (e) {
                 dataType: 'json',
                 success: function(data){
                     pipe_item=parseInt(data.pipe_item);
+                    alert(pipe_item)
                 }
                 });
         },
@@ -76,7 +77,6 @@ function gameloop() {
     if (o.bottom >= $("#land").offset().top) return void playerDead();
     var u = $("#ceiling");
     if (r <= u.offset().top + u.height() && (position = 0), null != pipes[0]) {
-        alert(pipe_item)
         pipe_item_final=Math.floor(Math.random()*pipe_item)
         var d = pipes[0],
             h = d.children(".pipe_upper"),
