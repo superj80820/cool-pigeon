@@ -18,6 +18,7 @@ window.onload = function (e) {
                     gravity = parseFloat(data.gravity);
                     updateSpeed = parseInt(data.updateSpeed);
                     score_point =parseInt(data.score_point);
+                    web_score =parseInt(data.score);
                     alert(loadOk)
                     loadOk = true;
                 },error: function(data){
@@ -162,7 +163,9 @@ function playerDead() {
             "group_id":group_id
         }),
         complete: function(data){
-            sentToLine();
+            if (score > web_score){
+                sentToLine();
+            }
         }
     });
     
@@ -171,7 +174,7 @@ function sentToLine(){
     liff.sendMessages([
         {
         type:'text',
-        text:'欸嘿!獲得了'+score+'分'
+        text:'欸嘿!'
         }
     ]).then(function () {
         liff.closeWindow();})

@@ -254,7 +254,7 @@ def handle_join(event):
     print(event.source.group_id)
     conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,event.source.group_id))
     c = conn.cursor()
-    c.execute('CREATE TABLE info(user_id TEXT UNIQUE,score TEXT,pipe_item TEXT DEFAULT 0,jump TEXT DEFAULT -4.6,gravity TEXT DEFAULT .25,updateSpeed TEXT DEFAULT 1400,score_point TEXT DEFAULT 10)')
+    c.execute('CREATE TABLE info(user_id TEXT UNIQUE,score TEXT DEFAULT 0,pipe_item TEXT DEFAULT 0,jump TEXT DEFAULT -4.6,gravity TEXT DEFAULT .25,updateSpeed TEXT DEFAULT 1400,score_point TEXT DEFAULT 10)')
     conn.commit()
     conn.close()
 
@@ -304,6 +304,7 @@ def user_info():
         ret['gravity']='.25'
         ret['updateSpeed']='1400'
         ret['score_point']='10'
+        ret['score']='0'
         conn.commit()  
         conn.close()
         return jsonify(ret)
@@ -312,7 +313,7 @@ def user_info():
         ret = df.to_dict(orient='records')
         conn.commit()  
         conn.close()
-        return jsonify(ret)
+        return jsonify(ret[0])
     return 'fail'
 
 if __name__ == "__main__":
