@@ -7,23 +7,23 @@ window.onload = function (e) {
         data => {
             // Now you can call LIFF API
             user_id = data.context.userId;
-            alert(user_id)
             $.ajax({
                 type: 'GET',
                 url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'&group_id='+group_id,
                 dataType: 'json',
                 success: function(data){
-                    pipe_item=parseInt(data[0].pipe_item);
-                    jump = parseFloat(data[0].jump);
-                    gravity = parseFloat(data[0].gravity);
-                    updateSpeed = parseInt(data[0].updateSpeed);
-                    score_point =parseInt(data[0].score_point);
+                    console.log(data)
+                    pipe_item=parseInt(data.pipe_item);
+                    jump = parseFloat(data.jump);
+                    gravity = parseFloat(data.gravity);
+                    updateSpeed = parseInt(data.updateSpeed);
+                    score_point =parseInt(data.score_point);
                     alert(loadOk)
                     loadOk = true;
                 },error: function(data){
                     alert('fail')
                 }
-            });
+            });  
         },
         err => {
           // LIFF initialization failed
