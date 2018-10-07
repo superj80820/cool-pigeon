@@ -1,24 +1,4 @@
-window.onload = function (e) {
-    // user_id=''
-    // group_id=getQueryVariable('group_id');
-    // liff.init(
-    //     data => {
-    //         // Now you can call LIFF API
-    //         user_id = data.context.userId;
-    //         $.ajax({
-    //             type: 'GET',
-    //             url: 'https://b1ff8348.ngrok.io/user_info?user_id='+user_id+'group_id='+group_id,
-    //             dataType: 'json',
-    //             success: function(data){
-    //                 // pipe_item=data.pipe_item;
-    //             }
-    //             });
-    //     },
-    //     err => {
-    //       // LIFF initialization failed
-    //     }
-    // );
-}
+
 function getCookie(e) {
     for (var o = e + "=", t = document.cookie.split(";"), s = 0; s < t.length; s++) {
         var i = t[s].trim();
@@ -49,7 +29,7 @@ function startGame() {
     }, 500, "ease"), setBigScore(), debugmode && $(".boundingbox").show();
     var e = 1e3 / 60;
     loopGameloop = setInterval(gameloop, e), loopPipeloop = setInterval(updatePipes, 1400), playerJump()
-
+}
 function updatePlayer(e) {
     rotation = Math.min(velocity / 10 * 90, 90), $(e).css({
         rotate: rotation,
