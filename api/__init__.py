@@ -55,42 +55,29 @@ def handle_message(event):
     if event.message.text=="讓我飛":    
         sent_Column_list = []
         print(event.source.group_id)
-        conn = sqlite.connect('%sdata/db/%s.db'%(FileRout,event.source.group_id))
-        c = conn.cursor()
-        user_id_list = c.execute('SELECT user_id FROM info WHERE score = (SELECT MAX(score) FROM info)')
-        user_id_list = user_id_list.fetchall()
-        for item in user_id_list:
-            user_id = item[0]
-            user_score_list = c.execute('SELECT score FROM info WHERE user_id = "%s"'%(item[0]))
-            user_score = user_score_list.fetchall()[0][0]
+        profile = line_bot_api.get_profile(event.source.user_id)
 
-            profile = line_bot_api.get_profile(user_id)
+        sent_Column=CarouselColumn(
+        thumbnail_image_url=profile.picture_url,
+        title="%s要開飛了"%(profile.display_name),
+        text=" ",
+        actions=[
+            PostbackTemplateAction(
+                label="幫助他",
+                data='好道具'
+                ),
+            PostbackTemplateAction(
+                label="陷害他",
+                data='壞道具'
+                ),
+            URITemplateAction(
+                label='點我開始!!',
+                uri='line://app/1612063818-VeyxR31w?group_id=%s&pipe_item=%s'%(event.source.group_id,'100')
+                )
+            ]
+        )
+        sent_Column_list += [sent_Column]
 
-            sent_Column=CarouselColumn(
-            thumbnail_image_url=profile.picture_url,
-            title="%s要開飛了"%(profile.display_name),
-            text="%s分"%(user_score),
-            actions=[
-                PostbackTemplateAction(
-                    label="幫助他",
-                    data='好道具'
-                    ),
-                PostbackTemplateAction(
-                    label="陷害他",
-                    data='壞道具'
-                    ),
-                URITemplateAction(
-                    label='點我開始!!',
-                    uri='line://app/1612063818-VeyxR31w?group_id=%s&pipe_item=%s'%(event.source.group_id,'100')
-                    )
-                ]
-            )
-            sent_Column_list += [sent_Column]
-        # print("in%s"%user_score)
-        conn.commit()
-        conn.close()
-        # print(user_id_list)
-        # print(user_score_list)
         carousel_template_message = TemplateSendMessage(
             alt_text='飛吧~',
             template=CarouselTemplate(
