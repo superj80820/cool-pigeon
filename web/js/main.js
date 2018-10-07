@@ -17,6 +17,7 @@ window.onload = function (e) {
                     gravity = parseFloat(data[0].gravity);
                     updateSpeed = parseInt(data[0].updateSpeed);
                     score_point =parseInt(data[0].score_point);
+                    alert(loadOk)
                     loadOk = true;
                 }
             });
